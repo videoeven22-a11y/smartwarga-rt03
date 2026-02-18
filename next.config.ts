@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     "localhost",
     ".space.z.ai",  // Allow all z.ai subdomains
   ],
-  // Headers to allow cross-origin
+  // Headers to allow cross-origin and prevent caching issues
   async headers() {
     return [
       {
@@ -19,9 +19,20 @@ const nextConfig: NextConfig = {
           { key: 'Access-Control-Allow-Origin', value: '*' },
           { key: 'Access-Control-Allow-Methods', value: 'GET, POST, PUT, DELETE, OPTIONS' },
           { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization' },
+          { key: 'Cache-Control', value: 'no-store, must-revalidate' },
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'no-store, must-revalidate' },
         ],
       },
     ];
+  },
+  // Generate unique build ID to prevent stale cache
+  generateBuildId: async () => {
+    return 'smartwarga-' + Date.now()
   },
 };
 
