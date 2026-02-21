@@ -50,3 +50,8 @@ server.log
 # Skills directory
 /skills/download/
 .next/
+
+# Large files
+download/
+*.tar.gz
+*.zip
